@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Users
+{% endblock title %}
+
+
+{% block content %}
+<div class="container mx-auto flex flex-col px-5 py-24 justify-center items-center">
+    <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-black p-5"> All Users </h1>
+    <hr>
+
+    <!-- <ul class="w-1/2 p-4 border rounded-md shadow-md"> -->
+        <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+            <table class="table-auto w-full text-left whitespace-no-wrap">
+              <thead>
+                <tr>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">User ID</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Full Name</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Email Address</th>
+                  <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Edit/Delete</th>
+                </tr>
+              </thead>
+        
+        {% for user in users %}
+            <!-- <a href="/user/{{user.id}}" class="flex justify-between my-3">
+                <p style="padding: 10px; display: inline;">{{ user.fname }}</p>
+                <div>
+                    <form id="{{user.id}}" class="delete-form">
+                        <button class="mx-auto text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded text-lg" type="submit">Delete</button>
+                    </form>
+                </div> -->
+            
+                
+                      <tbody>
+                        <tr>
+                          <td class="px-4 py-3">{{user.id}}</td>
+                          <td class="px-4 py-3">{{user.fname}}</td>
+                          <td class="px-4 py-3">{{user.email}}</td>
+                          <td class="px-4 py-3"><form id="{{user.id}}" class="delete-form">
+                            <button class="mx-auto text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:bg-red-600 rounded text-lg" type="submit">Delete</button>
+                        </form></td>
+                        </tr>
+                    </tbody>
+                    
+        {% endfor %}
+    </table>
+</div>
+<div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
+    <a href="/user/create" class="flex ml-auto text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded">Add</a>
+</div>
+            
+    <!-- </ul> -->
+
+</div>
+
+<script>
+    document.addEventListener("submit", (e) => {
+        if (e.target.classList.contains("delete-form")) {
+            e.preventDefault();
+            const id = e.target.id;
+            fetch(`/user/${id}`, {
+                method: 'DELETE'
+            }).then(() => {
+                alert('Are you sure you want to delete')
+                window.location.href = '/user/';
+            })
+        }
+    });
+</script>
+{% endblock content %}
+    
+    
